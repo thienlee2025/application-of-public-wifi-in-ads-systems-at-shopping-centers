@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>THM MALL - Khảo sát nhận ưu đãi</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-red: #e31b23;
+            --dark-red: #b1141b;
+            --gold: #ffd700;
+            --light-gray: #f5f5f5;
+            --dark-gray: #333;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #fff5f5 0%, #ffe5e5 100%);
+            min-height: 100vh;
+        }
+
+        /* HEADER */
+        .header {
+            background: linear-gradient(135deg, var(--primary-red), var(--dark-red));
+            color: white;
+            padding: 15px 0;
+            box-shadow: 0 4px 20px rgba(227, 27, 35, 0.3);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo-icon {
+            font-size: 36px;
+        }
+
+        .logo-text h1 {
+            font-size: 28px;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+
+        .logo-text p {
+            font-size: 13px;
+            opacity: 0.9;
+        }
+
+        .back-home {
+            background: rgba(255,255,255,0.2);
+            padding: 10px 20px;
+            border-radius: 30px;
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .back-home:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        /* SURVEY CONTAINER */
+        .survey-container {
+            max-width: 800px;
+            margin: 40px auto;
+            background: white;
+            border-radius: 30px;
+            box-shadow: 0 20px 60px rgba(227, 27, 35, 0.2);
+            overflow: hidden;
+            animation: slideIn 0.5s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* VOUCHER BANNER */
+        .voucher-banner {
+            background: linear-gradient(135deg, var(--primary-red), var(--dark-red));
+            color: white;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .voucher-banner::before {
+            content: '🎁';
+            position: absolute;
+            font-size: 150px;
+            opacity: 0.1;
+            top: -20px;
+            right: -20px;
+            transform: rotate(15deg);
+        }
+
+        .voucher-banner h2 {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .voucher-banner p {
+            font-size: 18px;
+            opacity: 0.95;
+        }
+
+        .voucher-code-preview {
+            background: rgba(255,255,255,0.2);
+            padding: 15px 30px;
+            border-radius: 60px;
+            display: inline-block;
+            margin-top: 20px;
+            border: 2px dashed var(--gold);
+        }
+
+        .voucher-code-preview span {
+            font-size: 24px;
+            font-weight: bold;
+            letter-spacing: 3px;
+            color: var(--gold);
+        }
+
+        /* SURVEY FORM */
+        .survey-form {
+            padding: 40px;
+        }
+
+        .form-title {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .form-title h3 {
+            color: var(--primary-red);
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .form-title p {
+            color: #666;
+        }
+
+        .benefits-box {
+            background: #fff5f5;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 30px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            text-align: center;
+            border: 1px solid #ffe5e5;
+        }
+
+        .benefit-item {
+            padding: 10px;
+        }
+
+        .benefit-icon {
+            font-size: 24px;
+            color: var(--gold);
+            margin-bottom: 5px;
+        }
+
+        .benefit-text {
+            font-size: 13px;
+            color: var(--dark-gray);
+            font-weight: 600;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--dark-gray);
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .form-label span {
+            color: var(--primary-red);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #ffe5e5;
+            border-radius: 10px;
+            font-size: 15px;
+            transition: all 0.3s;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary-red);
+            outline: none;
+            box-shadow: 0 0 15px rgba(227, 27, 35, 0.2);
+        }
+
+        select.form-control {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23e31b23' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 15px center;
+            background-size: 16px;
+        }
+
+        .radio-group {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+
+        .radio-option {
+            position: relative;
+        }
+
+        .radio-option input[type="radio"] {
+            display: none;
+        }
+
+        .radio-option label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px;
+            background: white;
+            border: 2px solid #ffe5e5;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 14px;
+        }
+
+        .radio-option input[type="radio"]:checked + label {
+            background: var(--primary-red);
+            color: white;
+            border-color: var(--primary-red);
+        }
+
+        .radio-option label:hover {
+            border-color: var(--primary-red);
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, var(--primary-red), var(--dark-red));
+            color: white;
+            border: none;
+            border-radius: 15px;
+            font-size: 20px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(227, 27, 35, 0.3);
+        }
+
+        /* TERMS */
+        .terms {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 13px;
+            color: #999;
+        }
+
+        .terms a {
+            color: var(--primary-red);
+            text-decoration: none;
+        }
+
+        /* CLIENT INFO (hidden) */
+        #client_ip {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .survey-container {
+                margin: 20px;
+            }
+            
+            .survey-form {
+                padding: 20px;
+            }
+            
+            .benefits-box {
+                grid-template-columns: 1fr;
+            }
+            
+            .radio-group {
+                grid-template-columns: 1fr;
+            }
+            
+            .voucher-code-preview span {
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- HEADER -->
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">
+                <span class="logo-icon">🛍️</span>
+                <div class="logo-text">
+                    <h1>THM MALL</h1>
+                    <p>Khảo sát nhận ưu đãi</p>
+                </div>
+            </div>
+            <a href="index.html" class="back-home">← Về trang chủ</a>
+        </div>
+    </header>
+
+    <!-- SURVEY FORM -->
+    <div class="survey-container">
+        <div class="voucher-banner">
+            <h2>🎁 NHẬN NGAY ƯU ĐÃI ĐẶC BIỆT</h2>
+            <p>Hoàn thành khảo sát 2 phút - Nhận voucher giảm 20% + 10 điểm hội viên</p>
+        </div>
+
+        <div class="survey-form">
+            <div class="benefits-box">
+                <div class="benefit-item">
+                    <div class="benefit-icon">💰</div>
+                    <div class="benefit-text">Giảm 20% tất cả mặt hàng</div>
+                </div>
+                <div class="benefit-item">
+                    <div class="benefit-icon">⭐</div>
+                    <div class="benefit-text">+10 điểm hội viên</div>
+                </div>
+                <div class="benefit-item">
+                    <div class="benefit-icon">🎫</div>
+                    <div class="benefit-text">Mã DHMT17A1CL</div>
+                </div>
+            </div>
+
+            <form id="surveyForm" action="process_survey.php" method="POST">
+                <!-- Hidden field for client IP (from ESP32) -->
+                <input type="hidden" name="client_ip" id="client_ip" value="">
+
+                <div class="form-group">
+                    <label class="form-label">👤 Họ và tên <span>*</span></label>
+                    <input type="text" class="form-control" name="fullname" required placeholder="Nhập họ tên của bạn">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">📧 Email <span>*</span></label>
+                    <input type="email" class="form-control" name="email" required placeholder="Nhận voucher qua email">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">📞 Số điện thoại <span>*</span></label>
+                    <input type="tel" class="form-control" name="phone" required placeholder="Nhập số điện thoại để nhận điểm hội viên">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">🔍 Bạn quan tâm đến mặt hàng nào nhất? <span>*</span></label>
+                    <select class="form-control" name="product_search" required>
+                        <option value="">-- Chọn danh mục --</option>
+                        <option value="thoitrang">👕 Thời trang - Quần áo, giày dép</option>
+                        <option value="dientu">📱 Điện tử - Điện thoại, laptop</option>
+                        <option value="thucpham">🥘 Thực phẩm - Siêu thị, đồ ăn</option>
+                        <option value="giatri">🎬 Giải trí - Rạp chiếu phim, game</option>
+                        <option value="suckhoe">💊 Sức khỏe - Mỹ phẩm, thuốc</option>
+                        <option value="dungcu">🛠️ Đồ gia dụng - Nội thất, đồ dùng</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">💰 Mức chi tiêu trung bình mỗi lần? <span>*</span></label>
+                    <select class="form-control" name="spending" required>
+                        <option value="">-- Chọn mức chi tiêu --</option>
+                        <option value="<500k">Dưới 500,000đ</option>
+                        <option value="500k-1m">500,000đ - 1,000,000đ</option>
+                        <option value="1m-3m">1,000,000đ - 3,000,000đ</option>
+                        <option value="3m-5m">3,000,000đ - 5,000,000đ</option>
+                        <option value=">5m">Trên 5,000,000đ</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">📊 Xu hướng mua sắm của bạn? <span>*</span></label>
+                    <div class="radio-group">
+                        <div class="radio-option">
+                            <input type="radio" name="trend" id="trend-online" value="online" required>
+                            <label for="trend-online"><span>📱</span> Online</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" name="trend" id="trend-offline" value="offline">
+                            <label for="trend-offline"><span>🏬</span> Trực tiếp</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" name="trend" id="trend-both" value="both">
+                            <label for="trend-both"><span>🔄</span> Cả hai</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">💬 Góp ý của bạn về THM MALL</label>
+                    <textarea class="form-control" name="feedback" rows="4" placeholder="Chúng tôi luôn lắng nghe ý kiến của bạn..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">
+                        <input type="checkbox" name="agree" required checked> 
+                        Tôi đồng ý nhận thông tin khuyến mãi từ THM MALL
+                    </label>
+                </div>
+
+                <button type="submit" class="submit-btn">
+                    🎁 NHẬN VOUCHER NGAY
+                </button>
+
+                <div class="terms">
+                    Bằng việc nhấn nút, bạn đồng ý với <a href="#">điều khoản</a> và <a href="#">chính sách bảo mật</a> của THM MALL.
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Lấy client IP từ URL parameter (do ESP32 chuyển hướng)
+        function getUrlParameter(name) {
+            name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+            var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+            var results = regex.exec(location.search);
+            return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+        }
+        
+        // Gán vào hidden field
+        document.getElementById('client_ip').value = getUrlParameter('client');
+        // Debug: In ra IP đã nhận
+console.log('Client IP from ESP32:', document.getElementById('client_ip').value);
+    </script>
+</body>
+</html>

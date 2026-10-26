@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cảm ơn bạn - THM MALL</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-red: #e31b23;
+            --dark-red: #b1141b;
+            --gold: #ffd700;
+            --light-gray: #f5f5f5;
+            --dark-gray: #333;
+            --success-green: #27ae60;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--primary-red), var(--dark-red));
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .thanks-card {
+            background: white;
+            max-width: 600px;
+            width: 100%;
+            border-radius: 30px;
+            overflow: hidden;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.3);
+            animation: slideIn 0.5s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* HEADER */
+        .thanks-header {
+            background: linear-gradient(135deg, var(--primary-red), var(--dark-red));
+            color: white;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .thanks-header::before {
+            content: '🎉';
+            position: absolute;
+            font-size: 150px;
+            opacity: 0.1;
+            top: -20px;
+            right: -20px;
+            transform: rotate(15deg);
+        }
+
+        .success-icon {
+            width: 80px;
+            height: 80px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            margin: 0 auto 15px;
+            border: 3px solid white;
+        }
+
+        .thanks-header h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .thanks-header p {
+            opacity: 0.95;
+            font-size: 16px;
+        }
+
+        /* CONTENT */
+        .thanks-content {
+            padding: 40px;
+        }
+
+        .greeting {
+            text-align: center;
+            font-size: 18px;
+            color: var(--dark-gray);
+            margin-bottom: 25px;
+        }
+
+        .greeting span {
+            color: var(--primary-red);
+            font-weight: 700;
+        }
+
+        /* VOUCHER SECTION - chỉ hiện khi có voucher */
+        .voucher-section {
+            background: linear-gradient(135deg, #fff5f5, #ffe5e5);
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 25px;
+            border: 2px dashed var(--primary-red);
+            position: relative;
+            display: none; /* Ẩn mặc định, hiện bằng JS */
+        }
+
+        .voucher-section.show {
+            display: block;
+        }
+
+        .voucher-icon {
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--gold);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            border: 3px solid white;
+        }
+
+        .voucher-title {
+            text-align: center;
+            color: var(--primary-red);
+            font-weight: 600;
+            margin: 10px 0 15px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .voucher-code {
+            text-align: center;
+            font-size: 36px;
+            font-weight: 800;
+            color: var(--primary-red);
+            letter-spacing: 5px;
+            font-family: monospace;
+            margin: 15px 0;
+            background: white;
+            padding: 15px;
+            border-radius: 15px;
+            border: 2px dashed var(--primary-red);
+        }
+
+        .voucher-value {
+            text-align: center;
+        }
+
+        .value-badge {
+            background: var(--gold);
+            color: var(--dark-gray);
+            padding: 8px 20px;
+            border-radius: 30px;
+            font-weight: 700;
+            display: inline-block;
+            margin: 5px;
+        }
+
+        .points-badge {
+            background: var(--primary-red);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 30px;
+            font-weight: 700;
+            display: inline-block;
+            margin: 5px;
+        }
+
+        /* NORMAL THANKS - hiển thị khi không có voucher */
+        .normal-thanks {
+            text-align: center;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            display: none;
+        }
+
+        .normal-thanks.show {
+            display: block;
+        }
+
+        .normal-thanks p {
+            color: var(--dark-gray);
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        .wifi-icon {
+            font-size: 50px;
+            color: var(--primary-red);
+            margin-bottom: 15px;
+        }
+
+        /* COUNTDOWN TIMER */
+        .countdown-box {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            margin: 25px 0;
+        }
+
+        .countdown-title {
+            color: var(--dark-gray);
+            margin-bottom: 15px;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .timer {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .timer-item {
+            text-align: center;
+        }
+
+        .timer-number {
+            font-size: 36px;
+            font-weight: 700;
+            color: var(--primary-red);
+            background: white;
+            width: 70px;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border: 2px solid var(--primary-red);
+        }
+
+        .timer-label {
+            margin-top: 8px;
+            font-size: 12px;
+            color: #999;
+            text-transform: uppercase;
+        }
+
+        .redirect-text {
+            text-align: center;
+            color: #666;
+            margin: 15px 0;
+            font-size: 14px;
+        }
+
+        .redirect-text span {
+            color: var(--primary-red);
+            font-weight: 700;
+            font-size: 18px;
+        }
+
+        /* ACTION BUTTONS */
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-red), var(--dark-red));
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(227, 27, 35, 0.3);
+        }
+
+        .btn-outline {
+            background: white;
+            color: var(--primary-red);
+            border: 2px solid var(--primary-red);
+        }
+
+        .btn-outline:hover {
+            background: var(--primary-red);
+            color: white;
+        }
+
+        .footer-links {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 12px;
+        }
+
+        .footer-links a {
+            color: #999;
+            text-decoration: none;
+            margin: 0 10px;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary-red);
+        }
+
+        @media (max-width: 768px) {
+            .thanks-content {
+                padding: 20px;
+            }
+
+            .timer-number {
+                width: 50px;
+                height: 50px;
+                font-size: 24px;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+
+            .voucher-code {
+                font-size: 24px;
+                letter-spacing: 2px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="thanks-card">
+        <!-- HEADER -->
+        <div class="thanks-header">
+            <div class="success-icon">✓</div>
+            <h1>CẢM ƠN BẠN!</h1>
+            <p>THM MALL - Trung tâm thương mại hiện đại bậc nhất</p>
+        </div>
+
+        <!-- CONTENT -->
+        <div class="thanks-content">
+            <div class="greeting">
+                Kính chào <span id="customer-name">Quý khách</span>,
+            </div>
+
+            <!-- VOUCHER SECTION (dành cho người làm khảo sát) -->
+            <div class="voucher-section" id="voucherSection">
+                <div class="voucher-icon">🎁</div>
+                <div class="voucher-title">ƯU ĐÃI ĐẶC BIỆT CỦA BẠN</div>
+                
+                <div class="voucher-code" id="voucherCode">DHMT17A1CL</div>
+                
+                <div class="voucher-value">
+                    <span class="value-badge">🔥 GIẢM 20%</span>
+                    <span class="points-badge" id="pointsValue">+10 ĐIỂM</span>
+                </div>
+                
+                <p style="text-align: center; margin-top: 15px; font-size: 13px; color: #666;">
+                    Mã có hiệu lực trong 30 ngày. Áp dụng cho tất cả cửa hàng THM MALL.
+                </p>
+            </div>
+
+            <!-- NORMAL THANKS (dành cho người kết nối ngay) -->
+            <div class="normal-thanks" id="normalThanks">
+                <div class="wifi-icon">📶</div>
+                <p>Bạn đã kết nối WiFi thành công!</p>
+                <p style="font-size: 14px; margin-top: 10px;">Chúc bạn có trải nghiệm mua sắm tuyệt vời tại THM MALL.</p>
+            </div>
+
+            <!-- COUNTDOWN TIMER -->
+            <div class="countdown-box">
+                <div class="countdown-title">TỰ ĐỘNG CHUYỂN ĐẾN INTERNET SAU</div>
+                <div class="timer">
+                    <div class="timer-item">
+                        <div class="timer-number" id="minutes">00</div>
+                        <div class="timer-label">PHÚT</div>
+                    </div>
+                    <div class="timer-item">
+                        <div class="timer-number" id="seconds">10</div>
+                        <div class="timer-label">GIÂY</div>
+                    </div>
+                </div>
+                <div class="redirect-text">
+                    Hoặc nhấn <span>TIẾP TỤC</span> để vào Internet ngay
+                </div>
+            </div>
+
+            <!-- ACTION BUTTONS -->
+            <div class="action-buttons">
+                <a href="https://www.google.com" class="btn btn-primary" id="continueBtn">TIẾP TỤC</a>
+                <a href="index.html" class="btn btn-outline">VỀ TRANG CHỦ</a>
+            </div>
+
+            <!-- FOOTER LINKS -->
+            <div class="footer-links">
+                <a href="#">Điều khoản sử dụng</a>
+                <a href="#">Chính sách bảo mật</a>
+                <a href="#">Liên hệ</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Lấy tham số từ URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const name = urlParams.get('name') || 'Quý khách';
+        const hasVoucher = urlParams.get('voucher') === 'true';
+        const voucherCode = urlParams.get('code') || 'DHMT17A1CL';
+        const points = urlParams.get('points') || '10';
+
+        // Hiển thị tên khách hàng
+        document.getElementById('customer-name').textContent = name;
+
+        // Hiển thị voucher nếu có
+        if (hasVoucher) {
+            document.getElementById('voucherSection').classList.add('show');
+            document.getElementById('voucherCode').textContent = voucherCode;
+            document.getElementById('pointsValue').textContent = `+${points} ĐIỂM`;
+        } else {
+            document.getElementById('normalThanks').classList.add('show');
+        }
+
+        // COUNTDOWN TIMER
+        let timeLeft = 10; // 10 giây
+        const minutesEl = document.getElementById('minutes');
+        const secondsEl = document.getElementById('seconds');
+        const continueBtn = document.getElementById('continueBtn');
+
+        function updateTimer() {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            
+            minutesEl.textContent = minutes.toString().padStart(2, '0');
+            secondsEl.textContent = seconds.toString().padStart(2, '0');
+            
+            if (timeLeft <= 0) {
+                clearInterval(timerInterval);
+                window.location.href = 'https://www.google.com';
+            }
+            
+            timeLeft--;
+        }
+
+        // Cập nhật mỗi giây
+        updateTimer(); // Chạy ngay lập tức
+        const timerInterval = setInterval(updateTimer, 1000);
+
+        // Nếu nhấn nút Tiếp tục
+        continueBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            clearInterval(timerInterval);
+            window.location.href = 'https://www.google.com';
+        });
+
+        // Animation khi load
+        document.body.classList.add('animate-fade');
+    </script>
+</body>
+</html>
